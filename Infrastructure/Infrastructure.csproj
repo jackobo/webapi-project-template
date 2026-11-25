@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Jackobo.WebApiTemplate.Infrastructure</AssemblyName>
+    <RootNamespace>Jackobo.WebApiTemplate.Infrastructure</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Jackobo.AspNetCore.Framework" Version="10.1.0" />
+  </ItemGroup>
+
+  <!--#if (IncludeTests) -->
+  <!-- Service implementations are internal by design; the unit test project needs to see them.
+       DynamicProxyGenAssembly2 is the assembly Castle DynamicProxy (used by NSubstitute) emits the
+       substitutes into: without it, substitutes that mention an internal type - e.g.
+       ILogger<SampleService> - cannot be created. -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="Jackobo.WebApiTemplate.Infrastructure.Tests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+  </ItemGroup>
+  <!--#endif -->
+
+  <ItemGroup>
+    <!-- TODO: Uncomment when you add an EF Core DbContext for SQL Server persistence.
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.9" />
+    -->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+</Project>

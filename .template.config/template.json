@@ -1,0 +1,178 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Jackobo",
+  "classifications": [
+    "Web",
+    "WebAPI",
+    "Jackobo",
+    "Service"
+  ],
+  "identity": "Jackobo.WebApiTemplate",
+  "name": "Jackobo Web API Service",
+  "shortName": "jackobo-webapi",
+  "description": "A Jackobo.AspNetCore.Framework based ASP.NET Core Web API service with the standard Core / Infrastructure / WebAPI three-layer structure and a working sample endpoint.",
+  "tags": {
+    "language": "C#",
+    "type": "solution",
+    "editorTreatAs": "solution",
+    "vs_showParametersByDefault": "true"
+  },
+  "//": "sourceName is the token replaced everywhere (file contents, file names, folder names) with the value specified via -n / the project name in Visual Studio.",
+  "sourceName": "Jackobo.WebApiTemplate",
+  "preferNameDirectory": true,
+  "symbols": {
+    "//RequiredParameters": "AppTitle, ElasticIndex, RedisKeyPrefix and ApiErrorsPrefix identify the service and have no sensible automatic value, so they are required: 'dotnet new' refuses to scaffold without them and the Visual Studio dialog marks them as mandatory.",
+    "AppTitle": {
+      "type": "parameter",
+      "datatype": "string",
+      "isRequired": true,
+      "replaces": "Jackobo WebApiTemplate API",
+      "displayName": "Application title",
+      "description": "The display title of the service (JackoboWebApiOptions.appTitle), used as the Swagger document title. E.g. 'Orders API'."
+    },
+    "ElasticIndex": {
+      "type": "parameter",
+      "datatype": "string",
+      "isRequired": true,
+      "replaces": "elastic-index-placeholder",
+      "displayName": "Logger index (Elasticsearch)",
+      "description": "The elastic index that identifies this service in the logs ('Logger:ElasticIndex' in appsettings.json). It is the same in every environment and every Jackobo log formatter falls back on it. E.g. 'orders-service'."
+    },
+    "RedisKeyPrefix": {
+      "type": "parameter",
+      "datatype": "string",
+      "isRequired": true,
+      "replaces": "RedisKeyPrefixPlaceholder",
+      "displayName": "Redis key prefix",
+      "description": "Namespaces every key this service writes in Redis ('Redis:KeyPrefix' in appsettings.json). The framework refuses to register a Redis client without it as soon as a Redis connection string is configured - including one supplied later by the framework environment defaults - so it is set for every service. E.g. 'OrdersService'."
+    },
+    "ApiErrorsPrefix": {
+      "type": "parameter",
+      "datatype": "string",
+      "isRequired": true,
+      "replaces": "ApiErrorsPrefixPlaceholder",
+      "displayName": "API error codes prefix",
+      "description": "Short code prepended to every error in 'Core/Errors/ApiErrors.cs', so an error code identifies the service that produced it (e.g. with 'ORD', the error 'Database.RecordNotFound' is returned as 'ORD.Database.RecordNotFound'). Use a short uppercase acronym of the service name, unique across your services. E.g. 'ORD' for an orders service."
+    },
+    "Framework": {
+      "type": "parameter",
+      "datatype": "choice",
+      "description": "The target framework for the project. NOTE: this symbol must exist for the other parameters to appear in the Visual Studio 'New Project' dialog.",
+      "choices": [
+        {
+          "choice": "net10.0",
+          "description": "Target .NET 10.0",
+          "displayName": ".NET 10.0"
+        }
+      ],
+      "replaces": "net10.0",
+      "defaultValue": "net10.0",
+      "displayName": "Framework"
+    },
+    "IncludeTests": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "true",
+      "displayName": "Include unit test projects",
+      "description": "Generates the Core.Tests, Infrastructure.Tests and WebAPI.Tests projects (xUnit v3 + NSubstitute), grouped in a 'Tests' solution folder, each with a sample unit test."
+    },
+    "UseRedis": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false",
+      "displayName": "Include Redis support",
+      "description": "Adds the Redis configuration to appsettings. The framework registers the Redis clients by itself: ISharedRedisService when 'Redis:Shared:ConnectionString' is configured and IDedicatedRedisService when 'Redis:Dedicated:ConnectionString' is configured."
+    },
+    "RedisType": {
+      "type": "parameter",
+      "datatype": "choice",
+      "isEnabled": "(UseRedis)",
+      "defaultValue": "Shared",
+      "displayName": "Redis type",
+      "description": "Shared = the service uses the Redis instance shared by all the Jackobo services ('Redis:Shared:ConnectionString'); only the key prefix is configured here. Dedicated = the service owns its Redis instance and supplies 'Redis:Dedicated:ConnectionString' per environment.",
+      "choices": [
+        {
+          "choice": "Shared",
+          "displayName": "Shared",
+          "description": "Shared Redis instance; only a key prefix is configured here."
+        },
+        {
+          "choice": "Dedicated",
+          "displayName": "Dedicated",
+          "description": "Own Redis instance; requires 'Redis:Dedicated:ConnectionString' per environment."
+        }
+      ]
+    },
+    "RedisQaConnection": {
+      "type": "parameter",
+      "datatype": "string",
+      "isEnabled": "(UseRedis && RedisType == \"Dedicated\")",
+      "defaultValue": "",
+      "replaces": "REDIS_QA_CONNECTION",
+      "displayName": "Redis connection (QA)",
+      "description": "The dedicated Redis connection string (host:port) used in the QA environment. Only used when Redis is dedicated."
+    },
+    "RedisProductionConnection": {
+      "type": "parameter",
+      "datatype": "string",
+      "isEnabled": "(UseRedis && RedisType == \"Dedicated\")",
+      "defaultValue": "",
+      "replaces": "REDIS_PRODUCTION_CONNECTION",
+      "displayName": "Redis connection (Production)",
+      "description": "The dedicated Redis connection string (host:port) used in the Production environment. Only used when Redis is dedicated."
+    },
+    "RedisDedicated": {
+      "type": "computed",
+      "value": "(UseRedis && RedisType == \"Dedicated\")"
+    },
+    "RedisShared": {
+      "type": "computed",
+      "value": "(UseRedis && RedisType == \"Shared\")"
+    },
+    "HostIdentifier": {
+      "type": "bind",
+      "binding": "HostIdentifier"
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**",
+            "**/.vs/**",
+            "**/.git/**",
+            "**/*.user",
+            "**/*.lscache",
+            "**/*.log",
+            "**/nupkg/**",
+            "**/*.nupkg",
+            "Jackobo.WebApiTemplate.Pack.csproj",
+            "install-template.ps1",
+            "new-project.ps1",
+            "pack-and-install.ps1",
+            ".template.config/**",
+            "LICENSE",
+            ".github/**"
+          ]
+        },
+        {
+          "condition": "(!IncludeTests)",
+          "exclude": [
+            "Core.Tests/**",
+            "Infrastructure.Tests/**",
+            "WebAPI.Tests/**",
+            "global.json"
+          ]
+        }
+      ]
+    }
+  ],
+  "//primaryOutputs": "Tells Visual Studio which solution to open/load after generation. Without this, VS may create only an empty solution and load no projects. The path is sourceName-replaced to '<name>.slnx', which matches the solution name Visual Studio expects.",
+  "primaryOutputs": [
+    {
+      "path": "Jackobo.WebApiTemplate.slnx"
+    }
+  ]
+}

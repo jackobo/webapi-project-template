@@ -1,0 +1,10 @@
+<Solution>
+  <Project Path="Core/Core.csproj" />
+  <Project Path="Infrastructure/Infrastructure.csproj" />
+  <Project Path="WebAPI/WebAPI.csproj" />
+  <!--#if (IncludeTests) -->
+  <Project Path="Core.Tests/Core.Tests.csproj" />
+  <Project Path="Infrastructure.Tests/Infrastructure.Tests.csproj" />
+  <Project Path="WebAPI.Tests/WebAPI.Tests.csproj" />
+  <!--#endif -->
+</Solution>

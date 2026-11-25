@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Packaging project for the Jackobo Web API template.
+
+    This project does NOT contain code. Its only purpose is to pack the template
+    content (everything in this folder) into a NuGet package so the template can be
+    installed and shown in the Visual Studio "Create a new project" dialog.
+
+    It is intentionally NOT part of Jackobo.WebApiTemplate.sln, so it is invisible when
+    you open the template solution, and it is excluded from generated projects.
+  -->
+
+  <PropertyGroup>
+    <PackageType>Template</PackageType>
+    <PackageId>Jackobo.WebApiTemplate</PackageId>
+    <PackageVersion>1.0.1</PackageVersion>
+    <Title>Jackobo Web API Template</Title>
+    <Authors>Jackobo</Authors>
+    <Description>Jackobo.AspNetCore.Framework based ASP.NET Core Web API service template (Core / Infrastructure / WebAPI three-layer structure with a working sample endpoint).</Description>
+    <PackageTags>dotnet-new;templates;jackobo;webapi;aspnetcore</PackageTags>
+
+    <TargetFramework>net10.0</TargetFramework>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+
+    <!-- Template content uses dot-folders (.template.config) and dot-files (.gitignore),
+         so the default NuGet excludes (which skip anything starting with '.') must be turned off. -->
+    <NoDefaultExcludes>true</NoDefaultExcludes>
+
+    <!-- Prevent the SDK from auto-including the template's .cs files as Compile items of this project. -->
+    <EnableDefaultItems>false</EnableDefaultItems>
+
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <PackageOutputPath>nupkg</PackageOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="**\*"
+             Exclude="**\bin\**;**\obj\**;**\.git\**;**\.vs\**;**\*.user;**\*.lscache;**\nupkg\**;**\*.nupkg;Jackobo.WebApiTemplate.Pack.csproj;install-template.ps1;new-project.ps1;pack-and-install.ps1" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Jackobo.WebApiTemplate.Core</AssemblyName>
+    <RootNamespace>Jackobo.WebApiTemplate.Core</RootNamespace>
+  </PropertyGroup>
+
+  <!--
+    Jackobo.AspNetCore.Framework reference.
+    TODO: Keep the package Version aligned with the framework version your team uses.
+  -->
+  <ItemGroup>
+    <PackageReference Include="Jackobo.AspNetCore.Framework" Version="10.1.0" />
+  </ItemGroup>
+
+  <!--#if (IncludeTests) -->
+  <!-- Handlers and validators are internal by design; the unit test project needs to see them.
+       DynamicProxyGenAssembly2 is the assembly Castle DynamicProxy (used by NSubstitute) emits the
+       substitutes into: without it, substitutes that mention an internal type cannot be created. -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="Jackobo.WebApiTemplate.Core.Tests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+  </ItemGroup>
+  <!--#endif -->
+
+  <!-- FluentValidation is used for request validation inside the mediator pipeline.
+       Keep the version aligned with the one the Jackobo framework depends on. -->
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="12.1.1" />
+  </ItemGroup>
+
+</Project>

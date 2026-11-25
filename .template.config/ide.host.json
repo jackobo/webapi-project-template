@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json.schemastore.org/vs-2017.3.host",
+  "icon": "icon.png",
+  "symbolInfo": [
+    {
+      "id": "AppTitle",
+      "isVisible": "true",
+      "persistenceScope": "none"
+    },
+    {
+      "id": "ElasticIndex",
+      "isVisible": "true",
+      "persistenceScope": "none"
+    },
+    {
+      "id": "RedisKeyPrefix",
+      "isVisible": "true",
+      "persistenceScope": "none"
+    },
+    {
+      "id": "ApiErrorsPrefix",
+      "isVisible": "true",
+      "persistenceScope": "none"
+    },
+    {
+      "id": "UseRedis",
+      "isVisible": "true",
+      "persistenceScope": "none"
+    },
+    {
+      "id": "RedisType",
+      "isVisible": "true",
+      "persistenceScope": "templateGroup"
+    },
+    {
+      "id": "RedisQaConnection",
+      "isVisible": "true",
+      "persistenceScope": "templateGroup"
+    },
+    {
+      "id": "RedisProductionConnection",
+      "isVisible": "true",
+      "persistenceScope": "templateGroup"
+    }
+  ]
+}

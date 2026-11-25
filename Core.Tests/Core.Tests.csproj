@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Jackobo.WebApiTemplate.Core.Tests</AssemblyName>
+    <RootNamespace>Jackobo.WebApiTemplate.Core.Tests</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <!-- The Jackobo analyzers assume production control flow and are noise in test code:
+         JKB0001 fires on NSubstitute verification calls ('await sub.Received(1).DoAsync()') and
+         JKB0002 fires on 'Assert.True(result.IsSuccess); ... result.Value', where the assertion
+         itself is the guard. -->
+    <NoWarn>$(NoWarn);JKB0001;JKB0002</NoWarn>
+  </PropertyGroup>
+
+  <!-- Test framework: xUnit v3, running on Microsoft.Testing.Platform (the VSTest bridge is no
+       longer supported by the .NET 10 SDK). 'dotnet test' is pointed at that runner by the
+       global.json at the root of the solution.
+       Isolation (mocking) framework: NSubstitute, with its analyzers that catch misuses at compile time. -->
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" Version="3.2.2" />
+    <PackageReference Include="NSubstitute" Version="6.2.0" />
+    <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.17">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+    <Using Include="NSubstitute" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+</Project>
+
