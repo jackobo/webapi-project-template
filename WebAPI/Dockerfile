@@ -3,7 +3,7 @@
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 USER $APP_UID
-ENV ASPNETCORE_URLS=http://+:8080
+# The base image sets ASPNETCORE_HTTP_PORTS=8080, which the Jackobo framework honors (>= 10.4.0).
 WORKDIR /app
 EXPOSE 8080
 

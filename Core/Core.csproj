@@ -13,7 +13,7 @@
     TODO: Keep the package Version aligned with the framework version your team uses.
   -->
   <ItemGroup>
-    <PackageReference Include="Jackobo.AspNetCore.Framework" Version="10.1.0" />
+    <PackageReference Include="Jackobo.AspNetCore.Framework" Version="10.4.0" />
   </ItemGroup>
 
   <!--#if (IncludeTests) -->

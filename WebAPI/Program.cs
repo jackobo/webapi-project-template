@@ -29,7 +29,9 @@ namespace Jackobo.WebApiTemplate.WebAPI
                 // The application specific error catalog used by the OperationResult pipeline.
                 applicationSpecificErrors: typeof(ApiErrors));
 
-            var app = new JackoboWebapi(options);
+            // Pass args so that command-line arguments (--urls ..., --Section:Key=value) reach the
+            // configuration; they override every other configuration source.
+            var app = new JackoboWebapi(options, args);
 
             app.Run();
         }
